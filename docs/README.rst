@@ -1,10 +1,12 @@
 .. _readme:
 
 ============
-Introduction
+Introduction介绍
 ============
 
 Patroni originated as a fork of `Governor <https://github.com/compose/governor>`__, the project from Compose. It includes plenty of new features.
+
+Patroni 起始自Compose公司的 `Governor <https://github.com/compose/governor>`__ 项目，其扩展出了很多新功能和特性。
 
 For an example of a Docker-based deployment with Patroni, see `Spilo <https://github.com/zalando/spilo>`__, currently in use at Zalando.
 
@@ -108,16 +110,19 @@ Environment Configuration
 Go :ref:`here <environment>` for comprehensive information about configuring(overriding) settings via environment variables.
 
 
-Replication Choices
+Replication Choices 复制方式的选择
 -------------------
 
 Patroni uses Postgres' streaming replication, which is asynchronous by default. Patroni's asynchronous replication configuration allows for ``maximum_lag_on_failover`` settings. This setting ensures failover will not occur if a follower is more than a certain number of bytes behind the leader. This setting should be increased or decreased based on business requirements. It's also possible to use synchronous replication for better durability guarantees. See :ref:`replication modes documentation <replication_modes>` for details.
 
+Patroni 缺省使用 Postgresql 的异步流复制。Patroni 异步流复制配置允许设定 ``maximum_lag_on_failover`` 。
 
-Applications Should Not Use Superusers
+Applications Should Not Use Superusers 应用程序不能使用超级用户
 --------------------------------------
 
 When connecting from an application, always use a non-superuser. Patroni requires access to the database to function properly. By using a superuser from an application, you can potentially use the entire connection pool, including the connections reserved for superusers, with the ``superuser_reserved_connections`` setting. If Patroni cannot access the Primary because the connection pool is full, behavior will be undesirable.
+
+应用程序的连接请求通常是使用一个普通用户(非超级用户)。
 
 .. |Build Status| image:: https://travis-ci.org/zalando/patroni.svg?branch=master
    :target: https://travis-ci.org/zalando/patroni
